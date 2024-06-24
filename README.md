@@ -12,6 +12,20 @@ Before running this project, ensure you have the following installed:
 - PySpark
 
 ## Usage
+
+## Installations
+
+You need to install dependencies to run the project that specified in the `requirements.txt` as follow:
+
+```bash
+# Create virtual environment
+python3 -m venv .venv
+# Activate environment
+source .venv/bin/activate
+# Install deps
+python3 -m pip install -r requirements.txt
+```
+
 ### Running the Script
 
 The script supports two modes of operation: generating primes within a range and finding the nth prime within a range.
@@ -19,19 +33,20 @@ The script supports two modes of operation: generating primes within a range and
 #### Generating Primes in a Range
 
 To generate prime numbers within a specified range, use the following command:
+
 ```bash
-spark-submit prime_generator.py range <start> <end> <output_dir> --sieve <sieve_method>
+python3 prime_generator.py range <start: default to 1> <end> <output_dir> --num_slices <num: default to 16> --sieve <sieve_method>
 ```
 For example, to find prime numbers between 10 and 100 using the Sieve of Eratosthenes and save the results to the `primes` directory:
 
 ```bash
-spark-submit prime_generator.py range 10 100 --sieve eratosthenes primes
+python3 prime_generator.py range 10 100 --sieve eratosthenes primes
 ```
 
 To use the Sieve of Atkin:
 
 ```bash
-spark-submit prime_generator.py range 10 100 --sieve atkin primes
+python3 prime_generator.py range 10 100 --sieve atkin primes
 ```
 
 #### Finding the nth Prime in a Range
@@ -39,19 +54,19 @@ spark-submit prime_generator.py range 10 100 --sieve atkin primes
 To find the nth prime number within a specified range, use the following command:
 
 ```bash
-spark-submit prime_generator.py nth <start> <end> --nth <nth> --sieve <sieve_method> <output_dir>
+python3 prime_generator.py nth <start: default to 1> <end> --nth <nth> --sieve <sieve_method> --num_slices <num: default to 16> <output_dir>
 ```
 
 For example, to find the 5th prime number between 10 and 100 using the Sieve of Eratosthenes and save the result to the `primes` directory:
 
 ```bash
-spark-submit prime_generator.py nth 10 100 --nth 5 --sieve eratosthenes primes
+python3 prime_generator.py nth 10 100 --nth 5 --sieve eratosthenes primes
 ```
 
 To use the Sieve of Atkin:
 
 ```bash
-spark-submit prime_generator.py nth 10 100 --nth 5 --sieve atkin primes
+python3 prime_generator.py nth 10 100 --nth 5 --sieve atkin primes
 ```
 
 ## License
