@@ -31,7 +31,7 @@ def get_primes_in_range(
     sieve = sieve_class(broadcast_end.value)
     primes_up_to_end = sieve.get_primes()
 
-    primes_rdd = sc.parallelize(primes_up_to_end, numSlices=NUM_SLICES)
+    primes_rdd = sc.parallelize(primes_up_to_end, numSlices=partitions)
     primes_in_range = primes_rdd.filter(lambda x: start <= x <= end)
 
     return primes_in_range
@@ -46,7 +46,7 @@ def generate_primes_in_range(
     partitions=NUM_SLICES,
 ) -> None:
     try:
-        primes_in_range = get_primes_in_range(sc, start, end, sieve_class)
+        primes_in_range = get_primes_in_range(sc, start, end, sieve_class, partitions)
 
         output_file = f"output_primes_{start}_{end}"
         output_path = os.path.join(output_dir, output_file)
@@ -71,7 +71,7 @@ def get_nth_prime_in_range(
     partitions=NUM_SLICES,
 ) -> None:
     try:
-        primes_in_range = get_primes_in_range(sc, start, end, sieve_class)
+        primes_in_range = get_primes_in_range(sc, start, end, sieve_class, partitions)
 
         if nth <= 0 or nth > primes_in_range.count():
             raise ValueError(
