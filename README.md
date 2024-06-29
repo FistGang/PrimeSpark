@@ -35,18 +35,18 @@ The script supports two modes of operation: generating primes within a range and
 To generate prime numbers within a specified range, use the following command:
 
 ```bash
-python3 prime_generator.py range <start: default to 1> <end> <output_dir> --num_slices <num: default to 16> --sieve <sieve_method>
+python3 prime_generator.py --method range --start <lower limit: default to 1> --end <upper limit> --output_dir <path/to/your/output/dir> --num_slices <num slice> --sieve <sieve name>
 ```
 For example, to find prime numbers between 10 and 100 using the Sieve of Eratosthenes and save the results to the `primes` directory:
 
 ```bash
-python3 prime_generator.py range 10 100 --sieve eratosthenes primes
+python3 prime_generator.py --method range --start 10 --end 100 --numslice 16 --output_dir primes --sieve eratosthenes
 ```
 
 To use the Sieve of Atkin:
 
 ```bash
-python3 prime_generator.py range 10 100 --sieve atkin primes
+python3 prime_generator.py --method range --start 10 --end 100 --numslice 16 --output_dir primes --sieve atkin
 ```
 
 #### Finding the nth Prime in a Range
@@ -54,19 +54,19 @@ python3 prime_generator.py range 10 100 --sieve atkin primes
 To find the nth prime number within a specified range, use the following command:
 
 ```bash
-python3 prime_generator.py nth <start: default to 1> <end> --nth <nth> --sieve <sieve_method> --num_slices <num: default to 16> <output_dir>
+python3 prime_generator.py --method nth --start <lower limit: default to 1> --end <upper limit> --output_dir <path/to/your/output/dir> --num_slices <num slice> --sieve <sieve name>
 ```
 
 For example, to find the 5th prime number between 10 and 100 using the Sieve of Eratosthenes and save the result to the `primes` directory:
 
 ```bash
-python3 prime_generator.py nth 10 100 --nth 5 --sieve eratosthenes primes
+python3 prime_generator.py --method nth --start 10 --end 100 --nth 5 --numslice 16 --output_dir primes --sieve eratosthenes
 ```
 
 To use the Sieve of Atkin:
 
 ```bash
-python3 prime_generator.py nth 10 100 --nth 5 --sieve atkin primes
+python3 prime_generator.py --method nth --start 10 --end 100 --nth 5 --numslice 16 --output_dir primes --sieve atkin
 ```
 
 ## License
