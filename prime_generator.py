@@ -99,7 +99,7 @@ def main(
     nth: int,
     output_dir: str,
     sieve: str,
-    partitions=NUM_SLICES,
+    num_slices: int = NUM_SLICES,
 ) -> None:
     conf = SparkConf().setAppName("PrimeNumberGenerator")
     sc = SparkContext(conf=conf)
@@ -109,13 +109,13 @@ def main(
     try:
         if method == "range":
             generate_primes_in_range(
-                sc, start, end, output_dir, sieve_class, partitions
+                sc, start, end, output_dir, sieve_class, num_slices
             )
         elif method == "nth":
             if nth is None:
                 raise ValueError("Parameter nth must be provided for method 'nth'")
             get_nth_prime_in_range(
-                sc, start, end, nth, output_dir, sieve_class, partitions
+                sc, start, end, nth, output_dir, sieve_class, num_slices
             )
         else:
             raise ValueError(
@@ -130,38 +130,45 @@ if __name__ == "__main__":
         description="Calculate prime numbers within a range or find the nth prime number using PySpark."
     )
     parser.add_argument(
-        "method",
+        "--method",
         type=str,
         choices=["range", "nth"],
+        required=True,
         help="Method to use: 'range' or 'nth'",
     )
     parser.add_argument(
-        "start",
+        "--start",
         type=int,
-        nargs="?",
         default=1,
         help="Start of the range (inclusive), default is 1",
     )
-    parser.add_argument("end", type=int, help="End of the range (inclusive)")
+    parser.add_argument(
+        "--end", type=int, required=True, help="End of the range (inclusive)"
+    )
     parser.add_argument(
         "--nth",
         type=int,
         help="Find the nth prime number in the range (only for 'nth' method)",
         default=None,
     )
-    parser.add_argument("output_dir", help="Output directory for storing results")
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        required=True,
+        help="Output directory for storing results",
+    )
+    parser.add_argument(
+        "--num_slices",
+        type=int,
+        default=16,
+        help="Number of slices for parallelizing the RDD",
+    )
     parser.add_argument(
         "--sieve",
         type=str,
         choices=["eratosthenes", "atkin"],
         required=True,
         help="Sieve method to use: 'eratosthenes' or 'atkin'",
-    )
-    parser.add_argument(
-        "--num_slices",
-        type=int,
-        default=16,
-        help="Number of slices for parallelizing the RDD, default is 16",
     )
     args = parser.parse_args()
 
